@@ -1,6 +1,23 @@
 # NBA Draft Prediction 🏀
 
-A machine learning project that predicts whether a college basketball player will be selected in the NBA Draft, using historical player statistics. Built as part of the Applied Machine Learning & AI (AMLA) subject in the Master of Data Science & Innovation program at UTS Sydney.
+A machine learning project that predicts whether a college basketball player will be selected in the NBA Draft, using historical player statistics.
+
+[![Kaggle](https://img.shields.io/badge/Kaggle-Competition-blue?logo=kaggle)](https://www.kaggle.com/competitions/uts-36120-25-sp/overview)
+![Score](https://img.shields.io/badge/Kaggle%20Score-0.99610%20AUROC-brightgreen)
+![Rank](https://img.shields.io/badge/Rank-37%2F61%20Teams-orange)
+
+Built as part of the Applied Machine Learning & AI (AMLA) subject in the Master of Data Science & Innovation program at UTS Sydney.
+
+## Kaggle Competition
+
+| Detail | Value |
+|---|---|
+| Competition | [UTS-36120-25SP](https://www.kaggle.com/competitions/uts-36120-25-sp/overview) |
+| Final Score (AUROC) | **0.99610** |
+| Final Rank | **37 / 61 teams** |
+| Total Entrants | 144 |
+| Total Submissions | 1,557 |
+| Evaluation Metric | ROC-AUC |
 
 ## Problem Statement
 
@@ -8,36 +25,34 @@ A machine learning project that predicts whether a college basketball player wil
 
 **Challenge:** Severe class imbalance. Only ~0.8% of college players get drafted (94 positives out of ~11,800 players). Standard accuracy is misleading — AUROC and Top-K recall are the meaningful metrics here.
 
-**Why it matters:** NBA teams spend millions on draft picks. A model that can reliably surface high-potential players from thousands of candidates reduces scouting bias and improves team decision-making.
+**Why it matters:** NBA teams spend millions on draft picks. A model that reliably surfaces high-potential players from thousands of candidates reduces scouting bias and improves team decision-making.
 
-## Results
+## Experiment Results
 
-| Experiment | Model | AUROC | PR-AUC | Top-200 Recall |
+| Experiment | Model | Validation AUROC | PR-AUC | Top-200 Recall |
 |---|---|---|---|---|
-| 1 | XGBoost (all features) | **0.9961** | 0.6633 | 1.00 |
-| 2 | XGBoost (curated domain features) | **0.9968** | 0.7032 | 1.00 |
+| 1 | XGBoost (all features) | 0.9961 | 0.6633 | 1.00 |
+| 2 | XGBoost (curated domain features) | **0.9968** | **0.7032** | 1.00 |
 | 3 | Random Forest | 0.9945 | 0.4901 | 1.00 |
 | 4 | CatBoost | — | — | — |
 
-**Best model:** XGBoost with curated domain features (Experiment 2) — AUROC 0.9968, PR-AUC 0.7032.
-
-All 4 experiments confirmed the hypothesis that ML can effectively rank players by draft likelihood.
+All 4 experiments confirmed the hypothesis. Best model: XGBoost with curated domain features (Exp 2).
 
 ## Dataset
 
-- Source: [Kaggle NBA Draft Prediction competition](https://www.kaggle.com/)
+- Source: [Kaggle — UTS-36120-25SP](https://www.kaggle.com/competitions/uts-36120-25-sp/overview)
 - Train set: ~14,700 rows, ~12,600 features (after one-hot encoding)
 - Target: `drafted` (binary — 1 = drafted, 0 = not drafted)
-- Key features: points per game, assists, rebounds, shooting efficiency, advanced metrics (BPM, VORP, etc.), recruitment rank
+- Key features: points per game, assists, rebounds, shooting efficiency, advanced metrics (BPM, VORP), recruitment rank
 
 ## Experiments
 
 | Notebook | Description |
 |---|---|
-| `Experiment_1_XGBoost_All_Features.ipynb` | Baseline XGBoost using all available features. Feature selection via correlation + RandomForest importance. |
-| `Experiment_2_XGBoost_Curated_Features.ipynb` | XGBoost with hand-crafted domain features (per-minute ratios, efficiency metrics, advanced ratings). Highest PR-AUC. |
+| `Experiment_1_XGBoost_All_Features.ipynb` | Baseline XGBoost with all features. Feature selection via correlation + RandomForest importance. |
+| `Experiment_2_XGBoost_Curated_Features.ipynb` | XGBoost with curated domain features (per-minute ratios, efficiency metrics, advanced ratings). Best PR-AUC. |
 | `Experiment_3_Random_Forest.ipynb` | Random Forest with balanced subsampling to handle class imbalance. |
-| `Experiment_4_CatBoost.ipynb` | CatBoost with native categorical handling. Depth=6, learning_rate=0.05, early stopping. |
+| `Experiment_4_CatBoost.ipynb` | CatBoost with native categorical handling. Depth=6, lr=0.05, early stopping. |
 
 ## Tech Stack
 
@@ -60,14 +75,14 @@ pip install -r requirements.txt
 jupyter lab
 ```
 
-> **Note:** Dataset must be downloaded separately from Kaggle. See the dataset section in each notebook for setup instructions.
+> **Note:** Dataset must be downloaded from the [Kaggle competition page](https://www.kaggle.com/competitions/uts-36120-25-sp/overview). Requires Kaggle account.
 
 ## Key Findings
 
 - XGBoost outperforms Random Forest and CatBoost on this dataset
-- Curated domain features (per-minute stats, efficiency metrics) improve PR-AUC from 0.663 to 0.703 over raw features
-- Top-200 recall of 1.0 across all models — every drafted player is captured in the top 200 predictions
-- Class imbalance (124:1 ratio) requires careful handling; `scale_pos_weight` in XGBoost/CatBoost is critical
+- Curated domain features improve PR-AUC from 0.663 → 0.703 over raw features
+- Top-200 recall of 1.0 across all models — every drafted player captured in top 200 predictions
+- Class imbalance of 124:1 requires careful handling via `scale_pos_weight`
 
 ---
 
