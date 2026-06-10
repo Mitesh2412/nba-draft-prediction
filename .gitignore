@@ -1,0 +1,45 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+.Python
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Data (download from Kaggle separately)
+amla_at1/data/
+data/
+
+# Models (large files)
+models/*.json
+models/*.joblib
+models/*.pkl
+
+# Distribution
+dist/
+build/
+*.egg-info/
+
+# Environment
+.env
+.python-version
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Wandb
+wandb/
+
+# Poetry
+poetry.lock
